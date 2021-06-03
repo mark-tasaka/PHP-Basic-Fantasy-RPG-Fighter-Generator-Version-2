@@ -158,15 +158,6 @@ body{
 
 
 
-#weaponNotes{
-    position:absolute;
-    top: 900px;
-    left: 610px;
-	font-size: 2em;
-    color: red;
-}
-
-
 #gearList{
     position:absolute;
     top: 505px;
@@ -244,9 +235,9 @@ body{
 
 #wealth{
     position:absolute;
-    top: 1045px;
-    left: 735px;
-	font-size: 0.6em;
+    top: 1035px;
+    left: 765px;
+	font-size: 0.7em;
     width: 180px;
 }
 

@@ -142,24 +142,29 @@
         $totalAcDefense = $armourDefense + $shieldDefense;
         $totalArmourWeight = $shieldWeight + $armourWeight;
     
-        $armourDefense = removeZero($armourDefense);
-        $armourWeight = removeZero($armourWeight);
-    
-        $shieldDefense = removeZero($shieldDefense);
-        $shieldWeight = removeZero($shieldWeight);
     
         if(isset($_POST["theGoldV2"]))
         {
             $coins = $_POST["theGoldV2"];
         }
+
+        $coinArray = array();
+        $coinDescArray = array();
+        $coinWeight = 0;
+        
+        $coinArray = getCoins($coins);
+
+        foreach($coinArray as $coin)
+        {
+            $coinWeight += $coin;
+        }
+
+        $coinWeight = ($coinWeight/10);
+        $coinWeight = round($coinWeight);
+
+        $coinDescArray = getCoinDescription($coinArray);
+
     
-        $coinQuantity = getCoins($coins)[0];
-        $coinType = getCoins($coins)[1];
-        $coinQuantity2 = getCoins($coins)[2];
-        $coinType2 = getCoins($coins)[3];
-    
-    
-         
         $weaponArray = array();
         $weaponNames = array();
         $weaponDamage = array();
@@ -199,8 +204,6 @@
         array_push($weaponWeight, getWeapon($select)[2]);
         $totalWeaponWeight += getWeapon($select)[2];
     }
-    
-    
 
         $gearArray = array();
         $gearNames = array();
@@ -222,8 +225,6 @@
         
         $totalGearWeight = 0;
     
-  
-        
         $gearArray = array();
         $gearNames = array();
         $gearWeight = array();
@@ -261,7 +262,7 @@
 
 
     
-    $totalWeightCarried = $totalArmourWeight + $totalWeaponWeight + $totalGearWeight + $coinQuantity;
+    $totalWeightCarried = $totalArmourWeight + $totalWeaponWeight + $totalGearWeight + $coinWeight;
 
     $lightLoad = lightLoad ($characterRace, $strengthMod);
     $heavyLoad = heavyLoad ($characterRace, $strengthMod);
@@ -272,7 +273,7 @@
     $hitPoints = getHitPoints($characterRace, $level, $constitutionMod);
 
     $baseAC = 11 + $dexterityMod;
-    $armourClass = $baseAC + $armourDefense;
+    $armourClass = $baseAC + $totalAcDefense;
 
     $attackBonus = attackBonus ($level);
     $meleeAttack = $strengthMod + $attackBonus;
@@ -536,6 +537,10 @@
            {
                echo $shieldName;
            }
+           else if($armourName != "" && $shieldName == "")
+           {
+                echo $armourName;
+           }
            else
            {
                 echo $armourName . ' & ' . $shieldName;
@@ -553,30 +558,14 @@
        
        <span id="weaponsList">
            <?php
-           $val1 = 0;
-           $val2 = 0;
-           $val3 = 0;
-           
            foreach($weaponNames as $theWeapon)
            {
                echo $theWeapon;
                echo "<br/>";
-               $val1 = isWeaponTwoHanded($theWeapon, $val1);
-               $val2 = isWeaponBastardSword($theWeapon, $val2);
            }
-           
-           $val3 = $val1 + $val2;
-           
-           $weaponNotes = weaponNotes($val3);
-           
            ?>  
         </span>
        
-       <span id="weaponNotes">
-           <?php
-                echo $weaponNotes;
-           ?>
-        </span>
             
        <span id="weaponsList2">
            <?php
@@ -642,17 +631,9 @@
        
        <span id="wealth">
            <?php
-           
-           if($coinQuantity === 0)
+           foreach($coinDescArray as $coin)
            {
-               echo "";
-           }
-           else
-           {
-           echo ($coinQuantity * 10) . $coinType;
-           echo "<br/>";
-           echo ($coinQuantity2 * 10) . $coinType2;
-               
+               echo $coin;
            }
            ?>
        </span>
@@ -660,13 +641,13 @@
        <span id="coinWeight">
            <?php
                
-           if($coinQuantity === 0)
+           if($coinWeight === 0)
            {
                echo "";
            }
            else
            {
-                echo "Coin weight: " . ($coinQuantity+$coinQuantity2) . " lb";
+                echo "Coin weight: " . $coinWeight . " lb";
            }
            ?>
        </span>

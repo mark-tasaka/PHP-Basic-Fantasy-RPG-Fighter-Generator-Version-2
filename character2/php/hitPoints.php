@@ -11,12 +11,11 @@ function getHitPoints($characterRace, $level, $conMod)
             if($i < 9)
             {
                 $levelHP = rand(2, 6);
-                $hitPoints += $levelHP;
             }
         }
         else
         {
-            $levelHP = rand(3,6);
+            $levelHP = rand(3,8);
         }
 
         if($i >= 9)
