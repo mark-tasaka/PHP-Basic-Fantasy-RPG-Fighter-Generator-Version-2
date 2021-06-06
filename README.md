@@ -6,6 +6,13 @@ Live version of the Basic Fantasy RPG Fighter Character Generator (Version 2) is
 
 ----------------
 
+
+Update 1.02: 2021-06-06
+
+The Fighter Generator V2 Launch age has been added.
+
+
+
 Update 1.01: 2021-06-03
 
 Updates to basicFighter.php, ll_fighter.css, characterRace.php, coins.php, gear.php, hitPoints.php and weapons.php. 
